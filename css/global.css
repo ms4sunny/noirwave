@@ -1,0 +1,242 @@
+/* =========================
+   GLOBAL BODY STYLE
+========================= */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.4s, color 0.4s;
+}
+
+/* =========================
+   Elastic Animations
+========================= */
+
+@keyframes popupElasticIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popupElasticOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* =========================
+   THEME POPUP OVERLAY
+========================= */
+
+.theme-popup {
+  display: none;               /* hidden by default */
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+  pointer-events: auto;        /* allow clicks */
+}
+
+.theme-popup.open {
+  display: flex;
+}
+
+/* =========================
+   THEME POPUP BOX
+========================= */
+
+.theme-container {
+  width: 340px;
+  max-width: calc(100% - 40px);
+  background: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+
+  /* start hidden state before animation */
+  transform: scale(0.7);
+  opacity: 0;
+
+  pointer-events: auto;
+}
+
+.theme-popup.open .theme-container {
+  animation: popupElasticIn 0.35s ease forwards;
+}
+
+.theme-container.closing {
+  animation: popupElasticOut 0.25s ease forwards;
+}
+
+/* =========================
+   HEADER + CLOSE BUTTON
+========================= */
+
+.theme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.close-theme {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+/* =========================
+   THEME GRID & CARDS
+========================= */
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* =========================
+   THEME CARD GLOW ORB
+========================= */
+
+.theme-card {
+  cursor: pointer;
+  padding: 14px 10px;
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* NEW — full card glow using ORB color */
+.theme-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.25),
+    0 0 12px currentColor,
+    0 0 22px currentColor;
+}
+
+/* Keep general orb glow */
+.theme-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Orb grows on hover */
+.theme-card:hover .theme-preview {
+  transform: scale(1.2);
+}
+
+/* Orb colors (also supply card glow color via currentColor) */
+.theme-preview-default {
+  background: #8CC7FF;
+  --theme-glow: #8CC7FF;
+  box-shadow: 0 0 12px #8CC7FF, 0 0 24px #8CC7FF40, 0 0 40px #8CC7FF20;
+  color: #8CC7FF;
+}
+
+.theme-preview-dark {
+  background: #3CE7FF;
+  --theme-glow: #3CE7FF;
+  box-shadow: 0 0 12px #3CE7FF, 0 0 24px #3CE7FF40, 0 0 40px #3CE7FF20;
+  color: #3CE7FF;
+}
+
+.theme-preview-sunset {
+  background: #FF8A2A;
+  --theme-glow: #FF8A2A;
+  box-shadow: 0 0 12px #FF8A2A, 0 0 24px #FF8A2A40, 0 0 40px #FF8A2A20;
+  color: #FF8A2A;
+}
+
+.theme-preview-forest {
+  background: #34E8A9;
+  --theme-glow: #34E8A9;
+  box-shadow: 0 0 12px #34E8A9, 0 0 24px #34E8A940, 0 0 40px #34E8A920;
+  color: #34E8A9;
+}
+
+.theme-preview-midnight {
+  background: #6C8CFF;
+  --theme-glow: #6C8CFF;
+  box-shadow: 0 0 12px #6C8CFF, 0 0 24px #6C8CFF40, 0 0 40px #6C8CFF20;
+  color: #6C8CFF;
+}
+
+.theme-preview-violet {
+  background: #F78CFF;
+  --theme-glow: #F78CFF;
+  box-shadow: 0 0 12px #F78CFF, 0 0 24px #F78CFF40, 0 0 40px #F78CFF20;
+  color: #F78CFF;
+}
+
+
+/* Selected theme indicator */
+.theme-card.selected::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-color);
+  background: var(--bg-color);
+}
+
+/* =========================
+   GLOBAL POPUP PRIORITY
+========================= */
+
+body.popup-open .cursor-playground {
+  pointer-events: none;
+}
+
+#flowFieldCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#cursorLinesCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}

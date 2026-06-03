@@ -1,0 +1,70 @@
+-------------------------------
+JavaScript Basics — NoirWave Cheatsheet
+-------------------------------
+
+VARIABLES & DECLARATIONS
+------------------------
+const foo = "...";
+  • “foo” cannot be re-assigned.
+  • Use when the value stays constant (e.g., canvas element).
+
+let bar = "...";
+  • “bar” can be re-assigned.
+  • Use when the value may change (e.g., currentStyle variable).
+
+var baz = "...";  ⚠️
+  • Older style; has function-scope quirks.
+  • Rarely used in modern ES6+ code.
+
+DOM SELECTION
+-------------
+document.getElementById("idName");
+  • Finds the first element in HTML with id="idName".
+  • Returns null if no element found.
+
+document.querySelector(".className");
+  • Finds the first element matching CSS selector.
+  • Example: document.querySelector(".clock-widget").
+
+ELEMENT PROPERTIES & METHODS
+-----------------------------
+element.classList.add("hidden");
+  • Adds the CSS class “hidden” to the element.
+  • Useful for showing/hiding.
+
+element.addEventListener("click", handler);
+  • Attaches a function (handler) to run when a click happens.
+
+FUNCTIONS
+---------
+function drawClock() { … }
+  • Defines a reusable block of code.
+  • Call drawClock(); to run it.
+
+ARROW FUNCTIONS
+---------------
+() => { … }
+  • Shorthand for function() { … }
+  • Often used for inline handlers:
+    button.addEventListener("click", () => { … });
+
+CONDITIONALS & LOGIC
+--------------------
+if (condition) {
+  // code if true
+} else {
+  // code if false
+}
+
+LOOP / INTERVAL
+---------------
+setInterval(functionName, milliseconds);
+  • Runs functionName every X ms.
+
+COMMENTS
+--------
+// Single-line comment
+/* Multi-line comment */
+  • Useful for explaining what blocks of code do.
+
+-------------------------------
