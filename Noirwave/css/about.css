@@ -1,0 +1,163 @@
+/* =========================
+   About Popup — NoirWave
+   Android-style info card (with bounce animation)
+========================= */
+
+/* ------------------- OVERLAY ------------------- */
+.about-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1500;
+
+  /* overlay visuals */
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+
+  /* sizing and centering */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* visibility control */
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+/* visible state */
+.about-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* optional fallback (legacy use) */
+.about-popup.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* ------------------- CONTAINER (CARD) ------------------- */
+.about-container {
+  background: var(--popup-bg, rgba(255,255,255,0.12));
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+  width: clamp(340px, 40vw, 600px);
+  max-width: 90%;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  opacity: 0;
+  transform: translateY(-80px) scale(0.9);
+  transition: none;
+}
+
+/* ------------------- ANIMATION ------------------- */
+.about-popup.show .about-container {
+  animation: aboutEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.about-popup.hiding .about-container {
+  animation: aboutExit 0.6s cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
+}
+
+/* Enter animation: drop + overshoot + settle */
+@keyframes aboutEnter {
+  0%   { opacity: 0; transform: translateY(-60px) scale(0.7); }
+  60%  { opacity: 1; transform: translateY(20px) scale(1.12); }
+  80%  { transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Exit animation: rise + fade away */
+@keyframes aboutExit {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+}
+
+/* ------------------- HEADER ------------------- */
+.about-header {
+  background: linear-gradient(135deg, var(--accent-color), #0078ff);
+  color: white;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.about-header h3 {
+  font-size: clamp(1.2rem, 1vw + 1rem, 1.5rem);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-header h3::before {
+  content: "💻";
+  font-size: 1.3rem;
+}
+
+.close-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* ------------------- CONTENT ------------------- */
+.about-content {
+  padding: 2rem 2.5rem;
+  text-align: center;
+}
+
+.about-content p {
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  font-size: clamp(0.95rem, 1vw + 0.8rem, 1.1rem);
+}
+
+.about-content strong {
+  color: var(--accent-color);
+}
+
+/* ------------------- FOOTER ------------------- */
+.about-footer {
+  text-align: center;
+  padding-bottom: 1.2rem;
+}
+
+.about-footer a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.about-footer a:hover {
+  opacity: 0.8;
+}
+
+/* ------------------- DARK MODE ------------------- */
+body.dark-mode .about-container {
+  background: rgba(20, 20, 20, 0.75);
+}
