@@ -45,7 +45,7 @@ function getVeilColor() {
 
 
 // -------------------------------
-// Cursor tracking
+// Cursor tracking (Mouse + Touch)
 // -------------------------------
 const veilMouse = {
   x: window.innerWidth / 2,
@@ -56,6 +56,21 @@ window.addEventListener("mousemove", e => {
   veilMouse.x = e.clientX;
   veilMouse.y = e.clientY;
 });
+
+// ADDED FOR MOBILE: Simple tracking fallback for touch screens
+window.addEventListener("touchstart", e => {
+  if (e.touches.length > 0) {
+    veilMouse.x = e.touches[0].clientX;
+    veilMouse.y = e.touches[0].clientY;
+  }
+}, { passive: true });
+
+window.addEventListener("touchmove", e => {
+  if (e.touches.length > 0) {
+    veilMouse.x = e.touches[0].clientX;
+    veilMouse.y = e.touches[0].clientY;
+  }
+}, { passive: true });
 
 // -------------------------------
 // Veil points (memory trail)
@@ -86,8 +101,7 @@ function startVeil() {
   function animate() {
     veilCtx.clearRect(0, 0, veilWidth, veilHeight);
 
-  veilCtx.fillStyle = getVeilColor();
-
+    veilCtx.fillStyle = getVeilColor();
 
     veilLayers.forEach((layer, i) => {
       const targetX = i === 0 ? veilMouse.x : veilLayers[i - 1].x;
@@ -108,18 +122,18 @@ function startVeil() {
 
       const alpha = 1 - i / LAYER_COUNT;
 
-       // -------------------------------
-  // FIX: compute color with alpha dynamically
-  // -------------------------------
-  const baseColor = getVeilColor(); // <-- get CSS variable
-  // convert rgba string to insert alpha
-  const colorWithAlpha = baseColor.replace(/rgba?\(([^)]+)\)/, `rgba($1, ${alpha * 0.6})`);
+      // -------------------------------
+      // FIX: compute color with alpha dynamically
+      // -------------------------------
+      const baseColor = getVeilColor(); // <-- get CSS variable
+      // convert rgba string to insert alpha
+      const colorWithAlpha = baseColor.replace(/rgba?\(([^)]+)\)/, `rgba($1, ${alpha * 0.6})`);
 
-  veilCtx.beginPath();
-  veilCtx.arc(layer.x, layer.y, 6 + i * 0.6, 0, Math.PI * 2);
-  veilCtx.fillStyle = colorWithAlpha; // <-- use computed color
-  veilCtx.fill();
-});
+      veilCtx.beginPath();
+      veilCtx.arc(layer.x, layer.y, 6 + i * 0.6, 0, Math.PI * 2);
+      veilCtx.fillStyle = colorWithAlpha; // <-- use computed color
+      veilCtx.fill();
+    });
 
     veilAnimationId = requestAnimationFrame(animate);
   }

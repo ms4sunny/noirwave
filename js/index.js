@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // NoirWave Animation Manager
   // ===============================
 
-  const animations = ["balls", "flow", "lines", "blob" , "veil"];
+  const animations = ["balls", "flow", "lines", "blob" , "veil", "moons", "ripple", "matrix", "ink", "vortex"];
   let currentAnimationIndex = 0;
 
   function setAnimation(type) {
@@ -53,6 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.NoirLines) window.NoirLines.stop();
   if (window.NoirBlob) window.NoirBlob.stop();
   if (window.NoirVeil) window.NoirVeil.stop();
+  if (window.NoirMoons) window.NoirMoons.stop();
+  if (window.NoirRipple) window.NoirRipple.stop();
+  if (window.NoirMatrix) window.NoirMatrix.stop();
+  if (window.NoirInk) window.NoirInk.stop();
+  if (window.NoirVortex) window.NoirVortex.stop();
 
   if (type === "balls" && window.NoirBalls) {
     window.NoirBalls.start();
@@ -72,6 +77,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (type === "veil" && window.NoirVeil) {
     window.NoirVeil.start();
+  }
+
+  if (type === "moons" && window.NoirMoons) {
+    window.NoirMoons.start();
+  }
+
+  if (type === "ripple" && window.NoirRipple) {
+    window.NoirRipple.start();
+  }
+
+  if (type === "matrix" && window.NoirMatrix) {
+    window.NoirMatrix.start();
+  }
+
+  if (type === "ink" && window.NoirInk) {
+    window.NoirInk.start();
+  }
+
+  if (type === "vortex" && window.NoirVortex) {
+    window.NoirVortex.start();
   }
 
   localStorage.setItem("noirwave-animation", type);
