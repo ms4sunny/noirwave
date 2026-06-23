@@ -1,87 +1,208 @@
-// calculator.js — NoirWave mini-app calculator
-console.log("Calculator JS loaded");
+// calculator.js — NoirWave Functional Skin & Scientific Mode Engine
+console.log("Advanced Calculator JS loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
   const calculatorWidget = document.getElementById("calculatorWidget");
   const calculatorPopup = document.getElementById("calculatorPopup");
   const closeCalculator = document.getElementById("closeCalculator");
   const calcDisplay = document.getElementById("calcDisplay");
-  const buttons = document.querySelectorAll(".calc-btn");
+  const calcContainer = document.getElementById("calcContainer");
+  const calcSciPanel = document.getElementById("calcSciPanel");
+  
+  // Custom navigation parameters
+  const toggleScientificBtn = document.getElementById("toggleScientific");
+  const btnPrev = document.getElementById("calcSkinPrev");
+  const btnNext = document.getElementById("calcSkinNext");
+  const skinLabel = document.getElementById("skinLabel");
+  const dots = document.querySelectorAll(".skin-dot");
+  const toggleDegRad = document.getElementById("toggleDegRad");
 
-  if (!calculatorWidget || !calculatorPopup || !calcDisplay) {
-    console.warn("calculator.js: required elements missing");
+  if (!calculatorPopup || !calcDisplay || !calcContainer) {
+    console.warn("calculator.js: critical template modules missing");
     return;
   }
 
-  console.log("✅ Calculator elements found");
+  // --- CONFIG DATA DECKS ---
+  const SKINS = [
+    { class: "skin-default", name: "Default Skin" },
+    { class: "skin-mono-noir", name: "Mono Noir" },
+    { class: "skin-cyber-surge", name: "Cyber Surge" },
+    { class: "skin-matrix-terminal", name: "Matrix Terminal" }
+  ];
+  let activeSkinIdx = 0;
+  let isScientific = false;
+  let isDegreeMode = true; // True = Degrees, False = Radians
 
-  // --- Toggle popup ---
+  // --- ENGINE DISPLAY CONTROLLER ---
+  let displayValue = ""; 
+
+  function appendValue(str) {
+    if (displayValue === "0" && str !== ".") displayValue = "";
+    displayValue += str;
+    calcDisplay.value = displayValue || "0";
+  }
+
+  function clearDisplay() {
+    displayValue = "";
+    calcDisplay.value = "0";
+  }
+
+  function dropLastToken() {
+    displayValue = displayValue.slice(0, -1);
+    calcDisplay.value = displayValue || "0";
+  }
+
+  // --- THE SKIN CAROUSEL CORE ---
+  function changeSkin(targetIndex) {
+    // Keep bounded within range limits
+    if (targetIndex < 0) targetIndex = SKINS.length - 1;
+    if (targetIndex >= SKINS.length) targetIndex = 0;
+
+    // Purge old skin profiles matching arrays
+    SKINS.forEach(s => calcContainer.classList.remove(s.class));
+    
+    activeSkinIdx = targetIndex;
+    const currentSkin = SKINS[activeSkinIdx];
+    
+    calcContainer.classList.add(currentSkin.class);
+    skinLabel.textContent = currentSkin.name;
+
+    // Update active indicators track
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle("active", idx === activeSkinIdx);
+    });
+  }
+
+  // Desktop Navigation Events
+  btnPrev.addEventListener("click", () => changeSkin(activeSkinIdx - 1));
+  btnNext.addEventListener("click", () => changeSkin(activeSkinIdx + 1));
+
+  window.addEventListener("keydown", (e) => {
+    if (calculatorPopup.classList.contains("hidden")) return;
+    if (e.key === "ArrowLeft") {
+      changeSkin(activeSkinIdx - 1);
+    } else if (e.key === "ArrowRight") {
+      changeSkin(activeSkinIdx + 1);
+    }
+  });
+
+  // Mobile Touch Swipe Track Vectors
+  let touchStartX = 0;
+  calcContainer.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  calcContainer.addEventListener("touchend", (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchEndX - touchStartX;
+    if (Math.abs(swipeDistance) > 60) { // requires 60px swipe travel delta
+      if (swipeDistance > 0) {
+        changeSkin(activeSkinIdx - 1); // Swiped Right -> Prev
+      } else {
+        changeSkin(activeSkinIdx + 1); // Swiped Left -> Next
+      }
+    }
+  }, { passive: true });
+
+  // --- SYSTEM LOGIC MATH PARSER ---
+  function calculateResult() {
+    try {
+      let mathematicalString = displayValue
+        .replace(/×/g, "*")
+        .replace(/÷/g, "/")
+        .replace(/π/g, "Math.PI")
+        .replace(/e/g, "Math.E");
+
+      // Regular expressions to process specialized operations
+      mathematicalString = processTrigFunction(mathematicalString, "sin", Math.sin);
+      mathematicalString = processTrigFunction(mathematicalString, "cos", Math.cos);
+      mathematicalString = processTrigFunction(mathematicalString, "tan", Math.tan);
+
+      mathematicalString = mathematicalString.replace(/log\(([^)]+)\)/g, "Math.log10($1)");
+      mathematicalString = mathematicalString.replace(/ln\(([^)]+)\)/g, "Math.log($1)");
+      mathematicalString = mathematicalString.replace(/√\(([^)]+)\)/g, "Math.sqrt($1)");
+      
+      // Handle standard exponential exponents power notation loops (x^y)
+      while (mathematicalString.includes("^")) {
+        mathematicalString = mathematicalString.replace(/([^+\-*/()]+)\^([^+\-*/()]+)/g, "Math.pow($1,$2)");
+      }
+
+      // Safe isolated evaluations framework
+      let evaluatedResult = new Function(`return (${mathematicalString})`)();
+      
+      if (evaluatedResult === undefined || isNaN(evaluatedResult)) {
+        calcDisplay.value = "Error";
+        displayValue = "";
+      } else {
+        // Fix trailing decimal calculation artifacts smoothly
+        if (typeof evaluatedResult === "number" && !Number.isInteger(evaluatedResult)) {
+          evaluatedResult = parseFloat(evaluatedResult.toFixed(8));
+        }
+        calcDisplay.value = evaluatedResult;
+        displayValue = evaluatedResult.toString();
+      }
+    } catch (err) {
+      calcDisplay.value = "Error";
+      displayValue = "";
+    }
+  }
+
+  function processTrigFunction(expr, name, mathFunc) {
+    const regex = new RegExp(`${name}\\(([^)]+)\\)`, "g");
+    return expr.replace(regex, (match, angleExpr) => {
+      let angleValue = new Function(`return (${angleExpr})`)();
+      if (isDegreeMode) {
+        angleValue = angleValue * (Math.PI / 180); // convert degrees to radians
+      }
+      return mathFunc(angleValue);
+    });
+  }
+
+  // --- GLOBAL DOM CLICK HOOK ROUTINES ---
   calculatorWidget.addEventListener("click", () => {
     calculatorPopup.classList.remove("hidden");
+    changeSkin(activeSkinIdx);
   });
 
   closeCalculator.addEventListener("click", () => {
     calculatorPopup.classList.add("hidden");
   });
 
-  // --- Calculator logic ---
-  let currentInput = "";
-  let operator = "";
-  let previousInput = "";
+  // Toggle Scientific Sidebar Panel Grid Expansion Frame
+  toggleScientificBtn.addEventListener("click", () => {
+    isScientific = !isScientific;
+    calcContainer.classList.toggle("scientific-mode", isScientific);
+    calcSciPanel.classList.toggle("hidden", !isScientific);
+    toggleScientificBtn.classList.toggle("active", isScientific);
+  });
 
-  function updateDisplay(value) {
-    calcDisplay.value = value || "0";
-  }
+  // Toggle angular tracking units format configuration metrics
+  toggleDegRad.addEventListener("click", () => {
+    isDegreeMode = !isDegreeMode;
+    toggleDegRad.textContent = isDegreeMode ? "Deg" : "Rad";
+  });
 
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const value = btn.getAttribute("data-value");
+  // General Button Deck Router Mapping Click Matrix Actions
+  document.querySelectorAll(".calc-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const val = btn.getAttribute("data-value");
+      if (!val || val === "sci" || val === "deg-rad") return;
 
-      if (!value) return;
-
-      if (value === "C") {
-        currentInput = "";
-        previousInput = "";
-        operator = "";
-        updateDisplay("0");
-        return;
+      if (val === "clear") {
+        clearDisplay();
+      } else if (val === "backspace") {
+        dropLastToken();
+      } else if (val === "=") {
+        calculateResult();
+      } else if (["sin", "cos", "tan", "log", "ln", "√"].includes(val)) {
+        appendValue(val + "(");
+      } else {
+        appendValue(val);
       }
-
-      if (value === "=") {
-        if (previousInput && operator && currentInput) {
-          let result = 0;
-          const prev = parseFloat(previousInput);
-          const curr = parseFloat(currentInput);
-
-          switch (operator) {
-            case "+": result = prev + curr; break;
-            case "-": result = prev - curr; break;
-            case "×": result = prev * curr; break;
-            case "÷": result = curr !== 0 ? prev / curr : "Error"; break;
-          }
-
-          updateDisplay(result);
-          currentInput = result.toString();
-          previousInput = "";
-          operator = "";
-        }
-        return;
-      }
-
-      if (["+", "-", "×", "÷"].includes(value)) {
-        if (currentInput === "") return;
-        operator = value;
-        previousInput = currentInput;
-        currentInput = "";
-        return;
-      }
-
-      // Append numbers or decimal
-      currentInput += value;
-      updateDisplay(currentInput);
     });
   });
 
-  // Initialize display
-  updateDisplay("0");
+  // Initialize UI display values
+  clearDisplay();
 });

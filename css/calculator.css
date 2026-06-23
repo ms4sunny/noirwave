@@ -1,5 +1,3 @@
-
-
 /* ===============================
    ABSOLUTE CENTER LOCK FIX
 =============================== */
@@ -13,167 +11,199 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.45);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  z-index: 3000; /* above all other widgets */
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  z-index: 3000;
   transition: opacity 0.25s ease;
 }
 
 .calculator-popup.hidden {
-  display: none;
+  display: none !important;
 }
 
-/* Centered calculator box */
+/* Centered calculator container box */
 .calculator-container {
-  background: rgba(255,255,255,0.08);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 1.5rem;
-  width: 280px;
-  max-width: 90%;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  color: var(--text-color);
+  width: 300px;
+  max-width: 92%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   font-family: 'Poppins', sans-serif;
   text-align: center;
-}
-.calculator-container {
-  animation: popupCenter 0.3s ease forwards;
-}
-
-.calculator-popup.hidden .calculator-container {
-  transform: scale(0.9);
-  opacity: 0;
+  transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s ease, border 0.4s ease, box-shadow 0.4s;
+  animation: popupCenter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Popup entry animation */
+/* Scientific Mode Layout expansion width adjustment */
+.calculator-container.scientific-mode {
+  width: 480px;
+}
+
 @keyframes popupCenter {
-  from {
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+  from { transform: translateY(30px) scale(0.92); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
 }
-
 
 /* ===============================
-   HEADER
+   CAROUSEL SKIN DESIGNS (TOKEN MASKS)
+=============================== */
+.calculator-container.skin-default {
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  --calc-text: var(--text-color, #ffffff);
+  --calc-btn-bg: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(0,0,0,0.15));
+  --calc-btn-hover: rgba(255,255,255,0.22);
+  --calc-op-bg: rgba(0, 122, 255, 0.35);
+  --calc-eq-bg: #0078ff;
+  --calc-display-bg: rgba(255, 255, 255, 0.12);
+}
+
+.calculator-container.skin-mono-noir {
+  background: #0d0d0d;
+  border: 1px solid #262626;
+  --calc-text: #ffffff;
+  --calc-btn-bg: #171717;
+  --calc-btn-hover: #262626;
+  --calc-op-bg: #262626;
+  --calc-eq-bg: #ffffff;
+  --calc-text-eq: #000000;
+  --calc-display-bg: #111111;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+}
+
+.calculator-container.skin-cyber-surge {
+  background: rgba(10, 11, 22, 0.75);
+  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(25px);
+  border: 1px solid #00ffcc;
+  --calc-text: #00ffcc;
+  --calc-btn-bg: rgba(0, 255, 204, 0.05);
+  --calc-btn-hover: rgba(0, 255, 204, 0.2);
+  --calc-op-bg: rgba(255, 0, 153, 0.15);
+  --calc-op-text: #ff0099;
+  --calc-eq-bg: #ff0099;
+  --calc-display-bg: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.25);
+}
+
+.calculator-container.skin-matrix-terminal {
+  background: #020a02;
+  border: 1px solid #00ff00;
+  font-family: 'Courier New', Courier, monospace;
+  --calc-text: #00ff00;
+  --calc-btn-bg: #051405;
+  --calc-btn-hover: #0a280a;
+  --calc-op-bg: #0a280a;
+  --calc-eq-bg: #00ff00;
+  --calc-text-eq: #000000;
+  --calc-display-bg: #010501;
+}
+
+/* Apply variables locally dynamically */
+.calculator-container { color: var(--calc-text); }
+#calcDisplay { background: var(--calc-display-bg); color: var(--calc-text); }
+.calc-btn { background: var(--calc-btn-bg); color: var(--calc-text); }
+.calc-btn:hover { background: var(--calc-btn-hover); }
+.calc-btn.operator-btn { background: var(--calc-op-bg); color: var(--calc-op-text, var(--calc-text)); }
+.calc-btn.equal { background: var(--calc-eq-bg); color: var(--calc-text-eq, #fff); }
+
+/* ===============================
+   LAYOUTS INTERNALS
 =============================== */
 .calc-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
-
-.calc-header span {
+.skin-badge-wrapper span {
   font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.85;
 }
-
 #closeCalculator {
-  background: transparent;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.3rem;
-  cursor: pointer;
-  border-radius: 6px;
-  padding: 2px 6px;
-  transition: background 0.2s;
+  background: transparent; border: none; color: inherit;
+  font-size: 1.4rem; cursor: pointer; padding: 0 5px; opacity: 0.7;
 }
-#closeCalculator:hover {
-  background: rgba(255,255,255,0.15);
+#closeCalculator:hover { opacity: 1; }
+
+.skin-dots-indicator {
+  display: flex; justify-content: center; gap: 6px; margin-bottom: 1rem;
+}
+.skin-dot {
+  width: 6px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s;
+}
+.skin-dot.active {
+  background: var(--calc-text); transform: scale(1.2);
 }
 
-/* ===============================
-   DISPLAY SCREEN
-=============================== */
 #calcDisplay {
-  width: 100%;
-  height: 50px;
-  font-size: 1.4rem;
-  text-align: right;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 10px;
-  margin-bottom: 1.2rem;
-  background: rgba(255,255,255,0.15);
-  color: var(--text-color);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
+  width: 100%; height: 55px; font-size: 1.6rem; text-align: right;
+  padding: 0.6rem; border: none; border-radius: 12px; margin-bottom: 1.2rem;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); outline: none;
 }
 
-/* ===============================
-   BUTTON GRID
-=============================== */
+.calc-main-layout {
+  display: flex; gap: 12px; width: 100%; transition: all 0.3s;
+}
+
 .calc-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex: 1;
+}
+
+.calc-scientific-panel {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 170px;
+  animation: fadeInPanel 0.25s ease-out forwards;
+}
+.calc-scientific-panel.hidden { display: none !important; }
+
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateX(-15px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 .calc-btn {
-  padding: 0.8rem;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(0,0,0,0.15));
-  color: var(--text-color);
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  transition: transform 0.12s ease, background 0.2s;
-  -webkit-user-select: none;
-  user-select: none;
+  padding: 0.85rem 0.5rem; border: none; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 500; cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.1s, background 0.2s, box-shadow 0.1s;
+  -webkit-user-select: none; user-select: none;
 }
-
-.calc-btn:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-.calc-btn:active {
-  transform: scale(0.96);
-}
-
-/* Highlighted operator buttons */
-.calc-btn[data-value="÷"],
-.calc-btn[data-value="×"],
-.calc-btn[data-value="-"],
-.calc-btn[data-value="+"] {
-  background: rgba(0, 122, 255, 0.3);
-  color: #fff;
-}
-
-/* Equal button style */
-.equal {
-  grid-column: span 4;
-  background: #0078ff;
-  color: white;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(0,120,255,0.3);
-}
+.calc-btn:active { transform: scale(0.94); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.calc-btn.equal { grid-column: span 2; }
 
 /* ===============================
-   RESPONSIVE
+   DESKTOP CAROUSEL NAV OVERLAYS
 =============================== */
-@media (max-width: 420px) {
-  .calculator-container {
-    width: 90%;
-  }
-  #calcDisplay {
-    font-size: 1.2rem;
-  }
+.carousel-nav-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+  color: white; font-size: 1.8rem; width: 45px; height: 45px;
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; transition: 0.2s; z-index: 3010; opacity: 0.5;
 }
+.carousel-nav-btn:hover { opacity: 1; background: rgba(0,0,0,0.6); }
+.left-nav { left: -65px; }
+.right-nav { right: -65px; }
 
 /* ===============================
-   DARK MODE
+   RESPONSIVE DESIGN ADJUSTMENTS
 =============================== */
-body.dark-mode .calculator-container {
-  background: rgba(0,0,0,0.55);
-  border: 1px solid rgba(255,255,255,0.04);
+@media (max-width: 640px) {
+  .carousel-nav-btn { display: none; } /* Hide raw arrow items on touch screens to make room for gestures */
+  .calculator-container.scientific-mode {
+    width: 320px; max-width: 95%;
+  }
+  .calc-main-layout { flex-direction: column; }
+  .calc-scientific-panel { width: 100%; grid-template-columns: repeat(4, 1fr); }
+  #toggleDegRad { grid-column: span 1; }
 }
