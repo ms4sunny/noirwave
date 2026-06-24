@@ -158,10 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- GLOBAL DOM CLICK HOOK ROUTINES ---
+  // ==========================================
+  // UNIFIED OPEN / RESTORE MANAGEMENT
+  // ==========================================
   calculatorWidget.addEventListener("click", () => {
-    calculatorPopup.classList.remove("hidden");
-    changeSkin(activeSkinIdx);
+    // Case A: If it was minimized, remove hidden layer and scale it back up
+    if (calcContainer.classList.contains("minimized")) {
+      calculatorPopup.classList.remove("hidden");
+      setTimeout(() => {
+        calcContainer.classList.remove("minimized");
+      }, 10);
+    } else {
+      // Case B: Regular initial open from a closed state
+      calculatorPopup.classList.remove("hidden");
+      changeSkin(activeSkinIdx);
+    }
   });
 
   closeCalculator.addEventListener("click", () => {
@@ -180,6 +191,107 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleDegRad.addEventListener("click", () => {
     isDegreeMode = !isDegreeMode;
     toggleDegRad.textContent = isDegreeMode ? "Deg" : "Rad";
+  });
+
+  // ==========================================
+  // DRAG & DROP PHYSICS ENGINE FOR WINDOWS
+  // ==========================================
+  const header = document.getElementById("calculatorHeader");
+  
+  let isDragging = false;
+  let currentX;
+  let currentY;
+  let initialX;
+  let initialY;
+  let xOffset = 0;
+  let yOffset = 0;
+
+  // Initialize position parameters smoothly
+  function dragStart(e) {
+    // If clicking buttons inside header, don't drag
+    if (e.target.closest('button')) return;
+
+    let clientX, clientY;
+    if (e.type === "touchstart") {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    initialX = clientX - xOffset;
+    initialY = clientY - yOffset;
+
+    isDragging = true;
+  }
+
+  function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    let clientX, clientY;
+    if (e.type === "touchmove") {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    currentX = clientX - initialX;
+    currentY = clientY - initialY;
+
+    xOffset = currentX;
+    yOffset = currentY;
+
+    // Apply translation math right onto the outer popup window wrapper
+    calculatorPopup.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
+  }
+
+  function dragEnd() {
+    isDragging = false;
+  }
+
+  // Desktop Mouse Listeners
+  header.addEventListener("mousedown", dragStart);
+  window.addEventListener("mousemove", drag, { passive: false });
+  window.addEventListener("mouseup", dragEnd);
+
+  // Mobile Touch Listeners 
+  header.addEventListener("touchstart", dragStart, { passive: true });
+  window.addEventListener("touchmove", drag, { passive: false });
+  window.addEventListener("touchend", dragEnd);
+
+
+ // ==========================================
+  // MINIMIZE & RESTORE MANAGEMENT (FIXED TRANSITION)
+  // ==========================================
+  const minimizeBtn = document.getElementById("minimizeCalculator");
+
+  minimizeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    
+    // 1. Trigger the smooth scale/shrink CSS animation first
+    calcContainer.classList.add("minimized");
+    
+    // 2. Wait exactly 350ms for the animation to play out, THEN add hidden
+    setTimeout(() => {
+      if (calcContainer.classList.contains("minimized")) {
+        calculatorPopup.classList.add("hidden");
+      }
+    }, 350); // Matches the 0.35s CSS curve exactly
+  });
+
+  // Keep your calculatorWidget restoration click listener exactly the same!
+  calculatorWidget.addEventListener("click", () => {
+    if (calcContainer.classList.contains("minimized")) {
+      // Remove hidden first so it can render the reverse scale up animation
+      calculatorPopup.classList.remove("hidden");
+      setTimeout(() => {
+        calcContainer.classList.remove("minimized");
+      }, 10);
+    }
   });
 
   // General Button Deck Router Mapping Click Matrix Actions

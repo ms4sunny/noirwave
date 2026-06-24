@@ -58,23 +58,20 @@
   <canvas id="magneticBalls"></canvas>
 </div>
 
-   <div id="calculatorPopup" class="calculator-popup hidden">
+   <div id="calculatorPopup" class="calculator-popup hidden window-popup">
   <button id="calcSkinPrev" class="carousel-nav-btn left-nav" aria-label="Previous Skin">‹</button>
   <button id="calcSkinNext" class="carousel-nav-btn right-nav" aria-label="Next Skin">›</button>
 
   <div class="calculator-container skin-default" id="calcContainer">
-    <div class="calc-header">
+    
+    <div class="calc-header window-header" id="calculatorHeader">
       <div class="skin-badge-wrapper">
         <span id="skinLabel">Default Skin</span>
       </div>
-      <button id="closeCalculator">×</button>
-    </div>
-
-    <div class="skin-dots-indicator">
-      <span class="skin-dot active"></span>
-      <span class="skin-dot"></span>
-      <span class="skin-dot"></span>
-      <span class="skin-dot"></span>
+      <div class="window-controls">
+        <button class="window-minimize-btn" id="minimizeCalculator">−</button>
+        <button id="closeCalculator">×</button>
+      </div>
     </div>
 
     <label for="calcDisplay" class="hidden">Calculator Display</label>

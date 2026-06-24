@@ -1,25 +1,28 @@
 /* ===============================
-   ABSOLUTE CENTER LOCK FIX
+   ABSOLUTE CENTER LOCK FIX & WINDOW STATES
 =============================== */
 .calculator-popup {
-  position: fixed;
+  position: absolute;
+  width: auto;
+  height: auto;
+  background: transparent;
+  z-index: 3000;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.55);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  z-index: 3000;
-  transition: opacity 0.25s ease;
+  cursor: default;
+
+  /* Smoothly fade the entire window layer */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 1;
+  visibility: visible;
 }
 
+/* Fixed: No more display: none !important here */
 .calculator-popup.hidden {
-  display: none !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; 
 }
 
 /* Centered calculator container box */
@@ -31,17 +34,33 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s ease, border 0.4s ease, box-shadow 0.4s;
-  animation: popupCenter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  
+  /* Combined transition controlling all container movements and scales */
+  transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.3s ease,
+              background 0.4s ease, 
+              border 0.4s ease, 
+              box-shadow 0.4s;
+  
+  transform-origin: bottom center;
+  animation: popupCenter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* Scientific Mode Layout expansion width adjustment */
 .calculator-container.scientific-mode {
   width: 480px;
+}
+
+/* Triggered via JS when clicking minimize */
+.calculator-container.minimized {
+  transform: scale(0.05) translateY(500px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 @keyframes popupCenter {
@@ -136,6 +155,34 @@
 }
 #closeCalculator:hover { opacity: 1; }
 
+.window-header {
+  cursor: move;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.window-minimize-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  padding: 0 4px;
+}
+.window-minimize-btn:hover {
+  opacity: 1;
+}
+
 .skin-dots-indicator {
   display: flex; justify-content: center; gap: 6px; margin-bottom: 1rem;
 }
@@ -199,7 +246,7 @@
    RESPONSIVE DESIGN ADJUSTMENTS
 =============================== */
 @media (max-width: 640px) {
-  .carousel-nav-btn { display: none; } /* Hide raw arrow items on touch screens to make room for gestures */
+  .carousel-nav-btn { display: none; }
   .calculator-container.scientific-mode {
     width: 320px; max-width: 95%;
   }
