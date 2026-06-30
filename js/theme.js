@@ -88,4 +88,54 @@ document.querySelectorAll(".theme-card").forEach(card => {
         // Save to localStorage
         localStorage.setItem("noirwave-theme", selected);
     });
+
+    // ISOLATED THEME WIDGET DRAG ENGINE (REPLICATED)
+const themeBox = document.querySelector(".theme-container"); // Adjust selector if named differently
+const themeHeader = document.querySelector(".theme-header");  // Adjust selector if named differently
+
+if (themeBox && themeHeader) {
+  let isDragging = false;
+  let initialX = 0;
+  let initialY = 0;
+
+  themeBox.style.position = "absolute";
+  themeHeader.style.cursor = "move";
+
+  function dragStart(e) {
+    // Prevent dragging if clicking buttons, links, or dropdowns inside the header
+    if (e.target.closest('button') || e.target.closest('a') || e.target.closest('select')) return;
+    
+    let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+    let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+    
+    initialX = clientX - themeBox.offsetLeft;
+    initialY = clientY - themeBox.offsetTop;
+    isDragging = true;
+  }
+
+  function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    
+    let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+    let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+    
+    themeBox.style.left = `${clientX - initialX}px`;
+    themeBox.style.top = `${clientY - initialY}px`;
+  }
+
+  function dragEnd() { 
+    isDragging = false; 
+  }
+
+  // Mouse Events
+  themeHeader.addEventListener("mousedown", dragStart);
+  window.addEventListener("mousemove", drag, { passive: false });
+  window.addEventListener("mouseup", dragEnd);
+
+  // Touch Events
+  themeHeader.addEventListener("touchstart", dragStart, { passive: true });
+  window.addEventListener("touchmove", drag, { passive: false });
+  window.addEventListener("touchend", dragEnd);
+}
 });

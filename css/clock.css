@@ -143,7 +143,37 @@ body.dark-mode .clock-widget.analogDark {
   --clock-minute: #00ff80;
   --clock-second: #39ff14;
   --text-color: #00ff80; /* force luminous even in dark mode */
-  filter: drop-shadow(0 0 6px #00ff80);
+}
+
+/* ========================================================
+   FIX: ISOLATE ANALOG DARK GLOW FROM INTERACTIVE POPUPS
+   ======================================================== */
+
+/* Strip the global container filter layout from cascading onto the popup UI */
+body.dark-mode .clock-widget.analogDark #clockStylePopup {
+  filter: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  background: #0b0c12 !important; /* Forces solid dark high contrast background */
+  border: 1px solid #00ff80; /* Subtle green borders instead of a massive layout blur */
+}
+
+/* Ensure the popup header and options explicitly clear text blurs */
+.clock-widget.analogDark #clockStylePopup h4,
+.clock-widget.analogDark #clockStylePopup .clock-style-options button {
+  text-shadow: none !important;
+  color: #ffffff !important; /* Keep text clean and readable */
+}
+
+/* Re-verify pointer priority so clicking functions correctly */
+.clock-widget.analogDark #clockStylePopup button {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 1001;
+}
+
+/* Keep the neon canvas glowing on its own instead of the entire parent container widget */
+body.dark-mode .clock-widget.analogDark #clockCanvas {
+  filter: drop-shadow(0 0 8px #00ff80);
 }
 
 /* =========================
