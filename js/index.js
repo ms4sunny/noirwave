@@ -1,4 +1,22 @@
 // index.js
+
+window.showBlur = function() {
+  const backdrop = document.getElementById("globalModalBackdrop");
+  if (backdrop) {
+    backdrop.classList.remove("hidden");
+    void backdrop.offsetWidth; // force repaint
+    backdrop.classList.add("active");
+  }
+};
+
+window.hideBlur = function() {
+  const backdrop = document.getElementById("globalModalBackdrop");
+  if (backdrop) {
+    backdrop.classList.remove("active");
+    backdrop.classList.add("hidden");
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
 
   console.log("NoirWave Android-style home screen loaded.");
@@ -43,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   // NoirWave Animation Manager
   // ===============================
-
   const animations = ["balls", "flow", "lines", "blob" , "veil", "moons", "ripple", "matrix", "ink", "vortex"];
   let currentAnimationIndex = 0;
 
@@ -132,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let initialX = 0;
     let initialY = 0;
 
-    // Use top/left coordinates directly to avoid overriding predefined CSS transforms
     aboutBox.style.position = "absolute";
     aboutHeader.style.cursor = "move";
 
@@ -142,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
       let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
 
-      // Track relative coordinates against current element offset placements
       initialX = clientX - aboutBox.offsetLeft;
       initialY = clientY - aboutBox.offsetTop;
       isDragging = true;
@@ -155,7 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
       let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
 
-      // Update structural spacing variables directly
       aboutBox.style.left = `${clientX - initialX}px`;
       aboutBox.style.top = `${clientY - initialY}px`;
     }
@@ -175,34 +189,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// GLOBAL CANVAS DEPTH MANAGEMENT ENGINE (Z-INDEX MANAGER)
+// ========================================================
+// GLOBAL CANVAS DEPTH MANAGEMENT ENGINE (FIXED WRAPPER MATRIX)
+// ========================================================
 (function () {
-  console.log("Global Z-Index Engine Initialized");
+  console.log("Global Z-Index Engine Initialized (Fixed Wrappers)");
 
-  // Track the highest depth layer dynamically across the session
-  let highestZIndex = 10; 
-
-  // Comma-separated list of all widget containers on your desktop canvas
-  const widgetSelectors = ".about-container, .theme-container, .clock-widget, .calculator-container, .weather-widget";
+  let highestZIndex = 3000; // Match your CSS window baseline
+  
+  // Target the actual outer wrapper popup shells consistently
+  const widgetSelectors = ".about-popup, .theme-popup, .calculator-popup, #quotePopup";
 
   function focusWidget(e) {
-    // Find the closest parent widget that matches our active list
     const activeWidget = e.target.closest(widgetSelectors);
-    
-    // If the click wasn't on or inside a widget, ignore it
     if (!activeWidget) return;
+    
+    const currentZ = parseInt(window.getComputedStyle(activeWidget).zIndex) || 0;
+    if (currentZ === highestZIndex) return;
 
-    // Check if it's already at the top to save style recalculations
-    if (parseInt(activeWidget.style.zIndex) === highestZIndex) return;
-
-    // Increment depth layer and focus the active window
     highestZIndex++;
     activeWidget.style.zIndex = highestZIndex;
     
-    console.log(`Focused window: ${activeWidget.className.split(' ')[0]} to layer ${highestZIndex}`);
+    console.log(`Focused window package: ${activeWidget.id || activeWidget.className} to layer ${highestZIndex}`);
   }
 
-  // Bind interaction event listeners to the global window space
   window.addEventListener("mousedown", focusWidget, { passive: true });
   window.addEventListener("touchstart", focusWidget, { passive: true });
 })();

@@ -165,18 +165,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // Case A: If it was minimized, remove hidden layer and scale it back up
     if (calcContainer.classList.contains("minimized")) {
       calculatorPopup.classList.remove("hidden");
+      window.showBlur(); // 👈 Turn blur ON when restoring
       setTimeout(() => {
         calcContainer.classList.remove("minimized");
       }, 10);
     } else {
       // Case B: Regular initial open from a closed state
       calculatorPopup.classList.remove("hidden");
+      window.showBlur(); // 👈 Turn blur ON on fresh open
       changeSkin(activeSkinIdx);
     }
   });
 
   closeCalculator.addEventListener("click", () => {
     calculatorPopup.classList.add("hidden");
+    window.hideBlur(); // 👈 Turn blur OFF
   });
 
   // Toggle Scientific Sidebar Panel Grid Expansion Frame
@@ -274,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 1. Trigger the smooth scale/shrink CSS animation first
     calcContainer.classList.add("minimized");
+    window.hideBlur(); // 👈 Turn blur OFF when minimizing
     
     // 2. Wait exactly 350ms for the animation to play out, THEN add hidden
     setTimeout(() => {

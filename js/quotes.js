@@ -34,9 +34,11 @@ quoteApp.addEventListener("click", () => {
   quoteText.textContent = `"${randomQuoteObj.text}"`;
   if (quoteAuthor) quoteAuthor.textContent = `– ${randomQuoteObj.author}`;
   quotePopup.classList.remove("hidden");
+  window.showBlur(); // 👈 Turn blur ON
 });
 
 // Close popup
 closeQuotePopup.addEventListener("click", () => {
   quotePopup.classList.add("hidden");
+  window.hideBlur(); // 👈 Turn blur OFF
 });

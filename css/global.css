@@ -240,3 +240,31 @@ body.popup-open .cursor-playground {
   z-index: 1;
   pointer-events: none;
 }
+
+/* ========================================================
+   UNIVERSAL BACKDROP GLASS OVERLAY
+   ======================================================== */
+#globalModalBackdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 7, 12, 0.4); /* Deep, atmospheric noir tint */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);       /* Smoothly blurs all background icons */
+  z-index: 999;                    /* Sits just beneath active popups */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;            /* Changes dynamically via JS */
+}
+
+/* State when active and blocking background elements */
+#globalModalBackdrop.active {
+  opacity: 1;
+  pointer-events: auto;            /* Intercepts all clicks to icons/background */
+}
+
+/* Utility fallback helper */
+#globalModalBackdrop.hidden {
+  display: none !important;
+}

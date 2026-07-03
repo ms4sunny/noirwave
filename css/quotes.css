@@ -11,7 +11,7 @@
   padding: 1rem 1.5rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   text-align: center;
-  z-index: 100;
+  z-index: 1001; /* 👑 Changed from 100 to 1001 to sit on top of the backdrop */
   color: var(--text-color);
 }
 
