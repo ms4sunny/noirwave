@@ -1,0 +1,1435 @@
+/* ========================================================
+   📟 NOIR-AMP UNIVERSAL ENGINE BASE
+======================================================== */
+#musicPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3000;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+#musicPopup.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.amp-container {
+  padding: 20px;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  background: #1a1b26;
+  border-radius: 16px;
+  min-width: 320px;
+}
+
+/* Base Slider Resets */
+.amp-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Utility Buttons Base */
+.amp-close-btn,
+.amp-mini-btn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Header */
+.amp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.amp-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1px;
+}
+
+.amp-window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.amp-utility-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+/* Main Content */
+.amp-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Display Panel */
+.amp-display-panel {
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.amp-timer-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amp-track-status {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.3);
+}
+
+.amp-digital-clock {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: #e2e8f0;
+  font-family: 'Courier New', monospace;
+}
+
+.amp-viz-monitor {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 40px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.amp-wave-bar {
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  transition: height 0.1s ease;
+}
+
+/* Track Details */
+.amp-track-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.amp-track-info {
+  flex: 1;
+}
+
+.amp-marquee-box {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.amp-scroll-text {
+  display: inline-block;
+  animation: scrollText 10s linear infinite;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.85rem;
+}
+
+.amp-mini-track-name {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.85rem;
+  display: none;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.amp-slider-container {
+  width: 100%;
+}
+
+.amp-time-controls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.amp-time-text {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
+  font-family: 'Courier New', monospace;
+}
+
+/* Utility Row */
+.amp-utility-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.amp-track-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.amp-file-load-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.amp-file-load-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+}
+
+.amp-file-load-btn .hidden {
+  display: none;
+}
+
+.amp-volume-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amp-volume-icon {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+}
+
+.amp-volume-container .amp-slider {
+  width: 80px;
+}
+
+/* Control Pad */
+.amp-control-pad {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.amp-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.amp-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+}
+
+.amp-btn:active {
+  transform: scale(0.95);
+}
+
+.amp-btn.play-trigger {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: rgba(0, 240, 255, 0.2);
+  color: #00f0ff;
+}
+
+.amp-btn.play-trigger:hover {
+  background: rgba(0, 240, 255, 0.2);
+}
+
+/* Controls Group (for mini-view) */
+.amp-controls-group {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.amp-container.mini-view .amp-controls-group {
+  display: flex !important;
+}
+
+.amp-container.mini-view .amp-main-content {
+  display: none !important;
+}
+
+/* Mini View Button States */
+.amp-container.mini-view #miniPlayBtn {
+  display: inline-flex !important;
+}
+
+.amp-container.mini-view #ampPlay {
+  display: none !important;
+}
+
+#miniPlayBtn {
+  display: none;
+}
+
+/* ========================================================
+   🎨 SKIN 1: CYBER-KNOB (Boutique Synthesizer)
+======================================================== */
+.skin-cyber-knob {
+  background: linear-gradient(145deg, #1a1b26 0%, #0d0e15 100%);
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.skin-cyber-knob .amp-title {
+  color: rgba(0, 240, 255, 0.6);
+}
+
+.skin-cyber-knob .amp-digital-clock {
+  color: #00f0ff;
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  font-family: 'Orbitron', monospace;
+}
+
+.skin-cyber-knob .amp-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  background: linear-gradient(90deg, #1a1b26 0%, #2a2b3a 100%);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 240, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.skin-cyber-knob .amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f0f8ff 0%, #2a2b3a 100%);
+  border: 2px solid #00f0ff;
+  box-shadow: 
+    0 0 20px rgba(0, 240, 255, 0.15),
+    inset 0 -2px 4px rgba(0,0,0,0.3);
+}
+
+.skin-cyber-knob .amp-btn {
+  background: linear-gradient(180deg, #252837 0%, #14161f 100%);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 3px solid #00f0ff;
+  color: rgba(255,255,255,0.7);
+}
+
+.skin-cyber-knob .amp-btn:hover {
+  background: #00f0ff;
+  color: #0a0b12;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+}
+
+.skin-cyber-knob .amp-btn:active {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+}
+
+.skin-cyber-knob .amp-close-btn,
+.skin-cyber-knob .amp-mini-btn {
+  background: linear-gradient(145deg, #1a1b26, #0d0e15);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  border-radius: 6px;
+  color: rgba(0, 240, 255, 0.4);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.skin-cyber-knob .amp-close-btn:hover,
+.skin-cyber-knob .amp-mini-btn:hover {
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.skin-cyber-knob .amp-close-btn:active,
+.skin-cyber-knob .amp-mini-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.05);
+}
+
+.skin-cyber-knob .amp-mini-btn.active {
+  color: #ff007f;
+  border-color: rgba(255, 0, 127, 0.3);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.1);
+}
+
+/* Cyber-Knob Mini-View */
+.skin-cyber-knob.amp-container.mini-view {
+  width: 280px;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.skin-cyber-knob.mini-view .amp-display-panel,
+.skin-cyber-knob.mini-view .amp-viz-monitor,
+.skin-cyber-knob.mini-view .amp-time-controls,
+.skin-cyber-knob.mini-view .amp-track-actions,
+.skin-cyber-knob.mini-view .amp-control-pad {
+  display: none;
+}
+
+.skin-cyber-knob.mini-view .amp-digital-clock {
+  font-size: 1rem;
+}
+
+.skin-cyber-knob.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.skin-cyber-knob.mini-view .amp-title {
+  font-size: 0.65rem;
+}
+
+.skin-cyber-knob.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.skin-cyber-knob.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skin-cyber-knob.mini-view .amp-controls-group .amp-slider-container {
+  flex: 1;
+  min-width: 60px;
+}
+
+.skin-cyber-knob.mini-view .amp-volume-container {
+  display: none;
+}
+
+/* ========================================================
+   🎨 SKIN 2: LED-GLASS (Segmented LED Display)
+======================================================== */
+.skin-led-glass {
+  background: rgba(8, 12, 20, 0.65);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.skin-led-glass .amp-title {
+  color: rgba(255,255,255,0.3);
+}
+
+.skin-led-glass .amp-digital-clock {
+  color: #e0f7ff;
+  text-shadow: 0 0 20px rgba(0, 200, 255, 0.1);
+}
+
+.skin-led-glass .amp-slider::-webkit-slider-runnable-track {
+  height: 14px;
+  border-radius: 4px;
+  background: #0a0e14;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(255,255,255,0.02) 10px,
+      rgba(255,255,255,0.02) 11px
+    ),
+    linear-gradient(90deg, 
+      #00ffcc 0%, #00ffcc 30%,
+      #ffcc00 30%, #ffcc00 65%,
+      #ff3366 65%, #ff3366 100%
+    );
+  background-size: 100% 100%, 100% 100%;
+}
+
+.skin-led-glass .amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 24px;
+  margin-top: -5px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.skin-led-glass .amp-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255,255,255,0.6);
+  border-radius: 40px;
+  padding: 8px 16px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.skin-led-glass .amp-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  box-shadow: 0 0 30px rgba(255,255,255,0.05);
+}
+
+.skin-led-glass .amp-btn:active {
+  transform: scale(0.95);
+}
+
+.skin-led-glass .amp-close-btn,
+.skin-led-glass .amp-mini-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.3);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.skin-led-glass .amp-close-btn:hover,
+.skin-led-glass .amp-mini-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  transform: scale(1.05);
+}
+
+.skin-led-glass .amp-close-btn:active,
+.skin-led-glass .amp-mini-btn:active {
+  transform: scale(0.95);
+}
+
+.skin-led-glass .amp-mini-btn.active {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+}
+
+/* LED-Glass Mini-View */
+.skin-led-glass.amp-container.mini-view {
+  width: 300px;
+  padding: 16px 18px;
+  border-radius: 20px;
+}
+
+.skin-led-glass.mini-view .amp-display-panel,
+.skin-led-glass.mini-view .amp-viz-monitor,
+.skin-led-glass.mini-view .amp-time-controls,
+.skin-led-glass.mini-view .amp-track-actions,
+.skin-led-glass.mini-view .amp-control-pad {
+  display: none;
+}
+
+.skin-led-glass.mini-view .amp-digital-clock {
+  font-size: 1.1rem;
+}
+
+.skin-led-glass.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.skin-led-glass.mini-view .amp-title {
+  font-size: 0.6rem;
+}
+
+.skin-led-glass.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.skin-led-glass.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skin-led-glass.mini-view .amp-volume-container {
+  display: none;
+}
+
+/* ========================================================
+   🎨 SKIN 3: LIQUID-MERCURY (Neumorphic Organic)
+======================================================== */
+.skin-liquid-mercury {
+  background: linear-gradient(145deg, #2a2d36, #16181e);
+  border-radius: 60px;
+  padding: 28px 24px 32px;
+  box-shadow: 
+    12px 12px 30px rgba(0,0,0,0.5),
+    -12px -12px 30px rgba(60,65,80,0.15);
+}
+
+.skin-liquid-mercury .amp-title {
+  color: rgba(200,210,230,0.2);
+}
+
+.skin-liquid-mercury .amp-digital-clock {
+  color: #e2e8f0;
+  font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.skin-liquid-mercury .amp-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #1a1c23;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.skin-liquid-mercury .amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #ffffff 0%, #8a94a6 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.skin-liquid-mercury .amp-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.skin-liquid-mercury .amp-btn {
+  background: linear-gradient(145deg, #2a2d36, #16181e);
+  border: none;
+  color: #b0b8c8;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+}
+
+.skin-liquid-mercury .amp-btn:hover {
+  color: #e2e8f0;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.5);
+}
+
+.skin-liquid-mercury .amp-btn:active {
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.4);
+  transform: translateY(2px);
+}
+
+.skin-liquid-mercury .amp-close-btn,
+.skin-liquid-mercury .amp-mini-btn {
+  background: linear-gradient(145deg, #2a2d36, #16181e);
+  border: none;
+  border-radius: 50%;
+  color: #8a94a6;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+}
+
+.skin-liquid-mercury .amp-close-btn:hover,
+.skin-liquid-mercury .amp-mini-btn:hover {
+  color: #e2e8f0;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.5);
+}
+
+.skin-liquid-mercury .amp-close-btn:active,
+.skin-liquid-mercury .amp-mini-btn:active {
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.4);
+  transform: translateY(2px);
+}
+
+.skin-liquid-mercury .amp-mini-btn.active {
+  color: #c0c8d8;
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.5);
+}
+
+/* Liquid-Mercury Mini-View */
+.skin-liquid-mercury.amp-container.mini-view {
+  width: 260px;
+  padding: 16px 18px;
+  border-radius: 40px;
+}
+
+.skin-liquid-mercury.mini-view .amp-display-panel,
+.skin-liquid-mercury.mini-view .amp-viz-monitor,
+.skin-liquid-mercury.mini-view .amp-time-controls,
+.skin-liquid-mercury.mini-view .amp-track-actions,
+.skin-liquid-mercury.mini-view .amp-control-pad {
+  display: none;
+}
+
+.skin-liquid-mercury.mini-view .amp-digital-clock {
+  font-size: 1rem;
+}
+
+.skin-liquid-mercury.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.skin-liquid-mercury.mini-view .amp-title {
+  font-size: 0.6rem;
+}
+
+.skin-liquid-mercury.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.skin-liquid-mercury.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skin-liquid-mercury.mini-view .amp-volume-container {
+  display: none;
+}
+
+/* ========================================================
+   🎨 SKIN 4: SOLID-CARBON (Tactical Military)
+======================================================== */
+.skin-solid-carbon {
+  background: #111111;
+  background-image: 
+    linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
+    linear-gradient(-45deg, #1a1a1a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1a1a1a 75%),
+    linear-gradient(-45deg, transparent 75%, #1a1a1a 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+  border: 3px solid #2a2a2a;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.skin-solid-carbon .amp-title {
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+.skin-solid-carbon .amp-digital-clock {
+  color: #ff6600;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 102, 0, 0.2);
+  font-family: 'Courier New', monospace;
+}
+
+.skin-solid-carbon .amp-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 0;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.skin-solid-carbon .amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 24px;
+  margin-top: -9px;
+  background: linear-gradient(180deg, #ff6600, #cc4400);
+  border: 1px solid #333;
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(255, 102, 0, 0.3);
+}
+
+.skin-solid-carbon .amp-slider::-webkit-slider-thumb:hover {
+  background: linear-gradient(180deg, #ff8833, #dd5500);
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+
+.skin-solid-carbon .amp-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #888;
+  border-radius: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.skin-solid-carbon .amp-btn:hover {
+  color: #ff6600;
+  border-color: #ff6600;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.05);
+}
+
+.skin-solid-carbon .amp-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.skin-solid-carbon .amp-close-btn,
+.skin-solid-carbon .amp-mini-btn {
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 2px;
+  color: #666;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-family: 'Courier New', monospace;
+  position: relative;
+}
+
+.skin-solid-carbon .amp-close-btn::after,
+.skin-solid-carbon .amp-mini-btn::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid rgba(255, 102, 0, 0);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.skin-solid-carbon .amp-close-btn:hover,
+.skin-solid-carbon .amp-mini-btn:hover {
+  color: #ff6600;
+  border-color: #ff6600;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.05);
+}
+
+.skin-solid-carbon .amp-close-btn:hover::after,
+.skin-solid-carbon .amp-mini-btn:hover::after {
+  border-color: rgba(255, 102, 0, 0.2);
+}
+
+.skin-solid-carbon .amp-close-btn:active,
+.skin-solid-carbon .amp-mini-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.skin-solid-carbon .amp-mini-btn.active {
+  color: #ff6600;
+  border-color: #ff6600;
+  background: #1a1a1a;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.05);
+}
+
+.skin-solid-carbon .amp-mini-btn.active::after {
+  border-color: rgba(255, 102, 0, 0.15);
+}
+
+/* Solid-Carbon Mini-View */
+.skin-solid-carbon.amp-container.mini-view {
+  width: 250px;
+  padding: 12px 14px;
+  border-radius: 6px;
+}
+
+.skin-solid-carbon.mini-view .amp-display-panel,
+.skin-solid-carbon.mini-view .amp-viz-monitor,
+.skin-solid-carbon.mini-view .amp-time-controls,
+.skin-solid-carbon.mini-view .amp-track-actions,
+.skin-solid-carbon.mini-view .amp-control-pad {
+  display: none;
+}
+
+.skin-solid-carbon.mini-view .amp-digital-clock {
+  font-size: 0.9rem;
+}
+
+.skin-solid-carbon.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 6px;
+}
+
+.skin-solid-carbon.mini-view .amp-title {
+  font-size: 0.55rem;
+}
+
+.skin-solid-carbon.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.skin-solid-carbon.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.65rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #999;
+}
+
+.skin-solid-carbon.mini-view .amp-volume-container {
+  display: none;
+}
+
+/* ========================================================
+   🎨 SKIN 5: NEON-OVERDRIVE (Retro-Wave Vector)
+======================================================== */
+.skin-neon-overdrive {
+  background: 
+    radial-gradient(ellipse at 50% 30%, rgba(60, 0, 100, 0.15), transparent 70%),
+    radial-gradient(ellipse at 50% 70%, rgba(0, 20, 80, 0.1), transparent 70%),
+    #05020c;
+  border: 1px solid rgba(158, 0, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 0 60px rgba(158, 0, 255, 0.05);
+}
+
+.skin-neon-overdrive .amp-title {
+  color: rgba(158, 0, 255, 0.3);
+  font-family: 'Orbitron', monospace;
+}
+
+.skin-neon-overdrive .amp-digital-clock {
+  font-size: 1.8rem;
+  font-weight: 300;
+  background: linear-gradient(90deg, #ff007f, #9e00ff, #ff007f);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: neonShift 3s ease-in-out infinite alternate;
+}
+
+@keyframes neonShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.skin-neon-overdrive .amp-slider::-webkit-slider-runnable-track {
+  height: 1px;
+  background: linear-gradient(90deg, #9e00ff, #ff007f);
+  box-shadow: 0 0 20px rgba(158, 0, 255, 0.1);
+}
+
+.skin-neon-overdrive .amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 20px #ffffff, 0 0 40px #9e00ff;
+}
+
+.skin-neon-overdrive .amp-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  box-shadow: 0 0 30px #ffffff, 0 0 60px #9e00ff, 0 0 80px #ff007f;
+}
+
+.skin-neon-overdrive .amp-btn {
+  background: transparent;
+  border: 1px solid rgba(158, 0, 255, 0.15);
+  color: rgba(158, 0, 255, 0.5);
+  border-radius: 4px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+}
+
+.skin-neon-overdrive .amp-btn:hover {
+  background: rgba(158, 0, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(158, 0, 255, 0.3);
+  box-shadow: 0 0 30px rgba(158, 0, 255, 0.05);
+}
+
+.skin-neon-overdrive .amp-btn:active {
+  transform: translateY(1px);
+  background: rgba(158, 0, 255, 0.02);
+}
+
+.skin-neon-overdrive .amp-close-btn,
+.skin-neon-overdrive .amp-mini-btn {
+  background: transparent;
+  border: 1px solid rgba(158, 0, 255, 0.1);
+  border-radius: 4px;
+  color: rgba(158, 0, 255, 0.3);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+  transition: all 0.2s ease;
+}
+
+.skin-neon-overdrive .amp-close-btn:hover,
+.skin-neon-overdrive .amp-mini-btn:hover {
+  color: #ffffff;
+  border-color: rgba(158, 0, 255, 0.3);
+  box-shadow: 0 0 30px rgba(158, 0, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.skin-neon-overdrive .amp-close-btn:active,
+.skin-neon-overdrive .amp-mini-btn:active {
+  transform: translateY(1px);
+}
+
+.skin-neon-overdrive .amp-mini-btn.active {
+  color: #ff007f;
+  border-color: rgba(255, 0, 127, 0.2);
+  box-shadow: 0 0 30px rgba(255, 0, 127, 0.05);
+}
+
+/* Neon-Overdrive Mini-View */
+.skin-neon-overdrive.amp-container.mini-view {
+  width: 270px;
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+
+.skin-neon-overdrive.mini-view .amp-display-panel,
+.skin-neon-overdrive.mini-view .amp-viz-monitor,
+.skin-neon-overdrive.mini-view .amp-time-controls,
+.skin-neon-overdrive.mini-view .amp-track-actions,
+.skin-neon-overdrive.mini-view .amp-control-pad {
+  display: none;
+}
+
+.skin-neon-overdrive.mini-view .amp-digital-clock {
+  font-size: 1rem;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.8);
+  background: none;
+  animation: none;
+}
+
+.skin-neon-overdrive.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.skin-neon-overdrive.mini-view .amp-title {
+  font-size: 0.55rem;
+}
+
+.skin-neon-overdrive.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.skin-neon-overdrive.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255,255,255,0.8);
+}
+
+.skin-neon-overdrive.mini-view .amp-volume-container {
+  display: none;
+}
+
+/* ========================================================
+   🎨 SKIN 6: HORIZON-STRIP (Studio Console)
+======================================================== */
+.skin-horizon-strip {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(255,255,255,0.1) 2px,
+      rgba(255,255,255,0.1) 4px
+    ),
+    linear-gradient(180deg, 
+      #e2e8f0 0%,
+      #cbd5e1 40%,
+      #94a3b8 100%
+    );
+  border-radius: 6px;
+  border: 1px solid #94a3b8;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.skin-horizon-strip .amp-title {
+  color: #475569;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.skin-horizon-strip .amp-digital-clock {
+  color: #38bdf8;
+  font-weight: 500;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+  font-family: 'Courier New', monospace;
+}
+
+.skin-horizon-strip .amp-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.skin-horizon-strip .amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 28px;
+  margin-top: -12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+  border: 1px solid #64748b;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.skin-horizon-strip .amp-slider::-webkit-slider-thumb:hover {
+  transform: scaleY(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.skin-horizon-strip .amp-btn {
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #94a3b8;
+  color: #334155;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.skin-horizon-strip .amp-btn:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #e8edf5 100%);
+  border-bottom-color: #64748b;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.skin-horizon-strip .amp-btn:active {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+}
+
+.skin-horizon-strip .amp-close-btn,
+.skin-horizon-strip .amp-mini-btn {
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #94a3b8;
+  border-radius: 4px;
+  color: #475569;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.skin-horizon-strip .amp-close-btn::before,
+.skin-horizon-strip .amp-mini-btn::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #94a3b8;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.skin-horizon-strip .amp-close-btn:hover,
+.skin-horizon-strip .amp-mini-btn:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #e8edf5 100%);
+  border-bottom-color: #64748b;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.skin-horizon-strip .amp-close-btn:active,
+.skin-horizon-strip .amp-mini-btn:active {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+}
+
+.skin-horizon-strip .amp-mini-btn.active::before {
+  background: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+}
+
+.skin-horizon-strip .amp-mini-btn.active {
+  border-bottom-color: #22c55e;
+}
+
+/* Horizon-Strip Mini-View */
+.skin-horizon-strip.amp-container.mini-view {
+  width: 380px;
+  padding: 12px 18px;
+  border-radius: 4px;
+}
+
+.skin-horizon-strip.mini-view .amp-display-panel,
+.skin-horizon-strip.mini-view .amp-viz-monitor,
+.skin-horizon-strip.mini-view .amp-time-controls,
+.skin-horizon-strip.mini-view .amp-track-actions,
+.skin-horizon-strip.mini-view .amp-control-pad {
+  display: none;
+}
+
+.skin-horizon-strip.mini-view .amp-digital-clock {
+  font-size: 1.1rem;
+}
+
+.skin-horizon-strip.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 6px;
+}
+
+.skin-horizon-strip.mini-view .amp-title {
+  font-size: 0.6rem;
+}
+
+.skin-horizon-strip.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.skin-horizon-strip.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #334155;
+}
+
+.skin-horizon-strip.mini-view .amp-volume-container {
+  display: none;
+}
+
+/* ========================================================
+   📦 UNIVERSAL MINI-VIEW LAYOUT ENGINE
+======================================================== */
+.amp-container.mini-view .amp-controls-group {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  width: 100%;
+  border-top: none;
+  padding-top: 0;
+}
+
+.amp-container.mini-view .amp-track-info {
+  flex: 1;
+  min-width: 80px;
+}
+
+.amp-container.mini-view .amp-track-info .amp-scroll-text {
+  display: none;
+}
+
+.amp-container.mini-view .amp-mini-track-name {
+  display: block !important;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255,255,255,0.8);
+}
+
+.amp-container.mini-view .amp-slider-container {
+  flex: 1;
+  min-width: 60px;
+}
+
+.amp-container.mini-view .amp-utility-buttons {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.amp-container.mini-view .amp-btn-group {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.amp-container.mini-view .amp-btn {
+  padding: 6px 10px;
+  font-size: 0.7rem;
+}
+
+.amp-container.mini-view .amp-volume-container {
+  display: none;
+}
+
+.amp-container.mini-view .amp-header {
+  border-bottom: none;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.amp-container.mini-view .amp-title {
+  font-size: 0.65rem;
+}
+
+/* Hide scroll animation in mini view */
+.amp-container.mini-view .amp-marquee-box {
+  animation: none;
+  overflow: hidden;
+}
+
+/* Fix for mini play button */
+.amp-container.mini-view #miniPlayBtn {
+  display: inline-flex !important;
+}
+
+.amp-container:not(.mini-view) #miniPlayBtn {
+  display: none !important;
+}
+
+/* ========================================================
+   🎯 ADDITIONAL SKIN-SPECIFIC MINI-VIEW OVERRIDES
+======================================================== */
+
+/* Cyber-Knob: Dark text in mini view */
+.skin-cyber-knob.mini-view .amp-mini-track-name {
+  color: rgba(0, 240, 255, 0.8);
+}
+
+/* LED-Glass: Glass effect in mini view */
+.skin-led-glass.mini-view .amp-mini-track-name {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Liquid-Mercury: Metallic text in mini view */
+.skin-liquid-mercury.mini-view .amp-mini-track-name {
+  color: #c0c8d8;
+}
+
+/* Solid-Carbon: Amber text in mini view */
+.skin-solid-carbon.mini-view .amp-mini-track-name {
+  color: #ff6600;
+}
+
+/* Neon-Overdrive: Neon text in mini view */
+.skin-neon-overdrive.mini-view .amp-mini-track-name {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Horizon-Strip: Dark text in mini view */
+.skin-horizon-strip.mini-view .amp-mini-track-name {
+  color: #334155;
+}
+
+/* Cyber-Knob mini view slider adjustments */
+.skin-cyber-knob.mini-view .amp-slider::-webkit-slider-runnable-track {
+  height: 4px;
+}
+
+.skin-cyber-knob.mini-view .amp-slider::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+}
+
+/* LED-Glass mini view slider adjustments */
+.skin-led-glass.mini-view .amp-slider::-webkit-slider-runnable-track {
+  height: 10px;
+}
+
+.skin-led-glass.mini-view .amp-slider::-webkit-slider-thumb {
+  height: 18px;
+  margin-top: -4px;
+}
+
+/* Liquid-Mercury mini view slider adjustments */
+.skin-liquid-mercury.mini-view .amp-slider::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+}
+
+/* Solid-Carbon mini view slider adjustments */
+.skin-solid-carbon.mini-view .amp-slider::-webkit-slider-thumb {
+  width: 10px;
+  height: 18px;
+  margin-top: -7px;
+}
+
+/* Neon-Overdrive mini view slider adjustments */
+.skin-neon-overdrive.mini-view .amp-slider::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  margin-top: -4.5px;
+}
+
+/* Horizon-Strip mini view slider adjustments */
+.skin-horizon-strip.mini-view .amp-slider::-webkit-slider-thumb {
+  width: 12px;
+  height: 22px;
+  margin-top: -9px;
+}

@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/quotes.css">
   <link rel="stylesheet" href="css/calculator.css">
   <link rel="stylesheet" href="css/about.css">
+  <link rel="stylesheet" href="css/music.css">
   <link rel="stylesheet" href="css/cursor.css">
 </head>
 <body>
@@ -158,7 +159,96 @@
   </div>
 </div>
 
+<!-- Music Player Popup -->
+<div id="musicPopup" class="hidden">
+  <div class="amp-container skin-default" id="ampContainer">
+    
+    <!-- HEADER -->
+    <div class="amp-header" id="ampHeader">
+      <div class="amp-title">📟 NOIR-AMP v1.0</div>
+      <div class="amp-window-controls">
+        <div class="amp-utility-buttons">
+          <button id="toggleMiniMode" class="amp-mini-btn" title="Toggle Mini Mode">⧉</button>
+          <button id="closeMusic" class="amp-close-btn" title="Close Player">✕</button>
+        </div>
+      </div>
+    </div>
 
+    <!-- MAIN CONTENT (FULL VIEW) -->
+    <div class="amp-main-content" id="ampMainContent">
+      
+      <!-- Display Panel -->
+      <div class="amp-display-panel">
+        <div class="amp-timer-screen">
+          <div class="amp-track-status">PLAYING</div>
+          <div id="ampTimeDisplay" class="amp-digital-clock">00:00</div>
+        </div>
+        
+        <div class="amp-viz-monitor" id="ampVizMonitor">
+          <div class="amp-wave-bar"></div>
+          <div class="amp-wave-bar"></div>
+          <div class="amp-wave-bar"></div>
+          <div class="amp-wave-bar"></div>
+          <div class="amp-wave-bar"></div>
+        </div>
+      </div>
+
+      <!-- Track Details -->
+      <div class="amp-track-details">
+        <div class="amp-track-info">
+          <div class="amp-marquee-box">
+            <span id="ampTrackName" class="amp-scroll-text">1. Midnight Drive.mp3</span>
+          </div>
+          <div id="ampMiniTrackNameHidden" class="amp-mini-track-name hidden">Midnight Drive.mp3</div>
+        </div>
+        
+        <!-- ✅ MAIN PROGRESS BAR - FIXED -->
+        <div class="amp-slider-container">
+          <input type="range" id="ampTimeline" class="amp-slider" min="0" max="100" value="0" title="Track position" aria-label="Track timeline">
+        </div>
+        
+        <div class="amp-time-controls">
+          <span id="ampTimeDisplay" class="amp-time-text">00:00</span>
+        </div>
+      </div>
+
+      <!-- Utility Row -->
+      <div class="amp-utility-row">
+        <div class="amp-track-actions">
+          <label class="amp-file-load-btn" title="Load local MP3 file">
+            📁 LOAD MP3
+            <input type="file" id="ampFileInput" class="hidden" accept="audio/*">
+          </label>
+        </div>
+        
+        <div class="amp-volume-container">
+          <span class="amp-volume-icon">🔊</span>
+          <input type="range" id="ampVolume" class="amp-slider" min="0" max="100" value="80" title="Volume" aria-label="Volume">
+        </div>
+      </div>
+
+      <!-- Control Pad -->
+      <div class="amp-control-pad" id="ampControlPad">
+        <button id="ampPrev" class="amp-btn">⏮</button>
+        <button id="ampPlay" class="amp-btn play-trigger">▶</button>
+        <button id="ampStop" class="amp-btn">⏹</button>
+        <button id="ampNext" class="amp-btn">⏭</button>
+      </div>
+    </div>
+
+    <!-- CONTROLS GROUP (Used in mini view) -->
+    <div class="amp-controls-group">
+      <button id="miniPlayBtn" class="amp-mini-btn hidden" type="button">▶</button>
+      <div class="amp-track-info">
+        <span id="ampMiniTrackName" class="amp-mini-track-name">Midnight Drive.mp3</span>
+      </div>
+      <div class="amp-slider-container">
+        <input type="range" id="ampMiniTimeline" class="amp-slider" min="0" max="100" value="0" title="Track position">
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- =========================
      Theme Popup — NoirWave
@@ -266,6 +356,7 @@
 <script src="js/about.js"></script>
 <script src="js/quotes.js" defer></script>
 <script src="js/calculator.js" defer></script>
+<script src="js/music.js" defer></script>
 <script src="js/cursor.js"></script>
 <script src="js/cursor-flow.js"></script>
 <script src="js/cursor-lines.js"></script>
